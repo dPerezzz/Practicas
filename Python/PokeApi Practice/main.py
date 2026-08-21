@@ -21,8 +21,11 @@ while True:
         image = Image.open(BytesIO(response_image.content)).convert('RGBA')
         fondo = Image.new("RGB", image.size, (0, 0, 0))
         fondo.paste(image, (0,0), image)
-        ascii_magic.from_pillow_image(fondo).to_terminal(columns=50, char='▀')
+        ascii_magic.from_pillow_image(fondo).to_terminal()
         print(data['name'])
+        for type in data['types']:
+            nombre_type = type['type']['name']
+            print(f"  - Tipo: {nombre_type}")
         for stat in data['stats']:
             nombre_stat = stat['stat']['name']
             valor_stat = stat['base_stat']
