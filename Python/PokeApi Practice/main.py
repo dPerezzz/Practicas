@@ -1,7 +1,7 @@
 from PIL import Image
 import requests
 from io import BytesIO
-
+import ascii_magic
 
 while True:
     pokemon = input('Ingresa el nombre del pokemon: ').strip().lower()
@@ -16,12 +16,13 @@ while True:
     if response.status_code == 200:
         print('Conexion exitosa')
         data = response.json()
-        # spriteURL = data['sprites']['front_default']
-        # image_response = requests.get(spriteURL)
-        # image = Image.open(BytesIO(image_response.content))
-        # image = image.convert("RGBA")
-        # image.show()
-        # print(data['name'])
+        spriteURL = data['sprites']['front_default']
+        response_image = requests.get(spriteURL)
+        image = Image.open(BytesIO(response_image.content)).convert('RGBA')
+        fondo = Image.new("RGB", image.size, (0, 0, 0))
+        fondo.paste(image, (0,0), image)
+        ascii_magic.from_pillow_image(fondo).to_terminal(columns=50, char='▀')
+        print(data['name'])
         for stat in data['stats']:
             nombre_stat = stat['stat']['name']
             valor_stat = stat['base_stat']

@@ -89,3 +89,32 @@ Ocurre cuando intentas usar un tipo mutable (como una lista) en un lugar donde P
 Ocurre cuando intentas encadenar un método sobre una función a la que olvidaste ponerle paréntesis `()`.
 * **Causa:** `input().strip.lower()` (faltan los paréntesis en `strip`).
 * **Solución:** `input().strip().lower()`.
+
+---
+
+## 5. Entornos y Procesamiento de Imágenes / CLI
+
+### • PEP 668 (`externally-managed-environment`)
+Mecanismo de seguridad en distros Linux modernas para evitar que `pip` sobrescriba librerías del sistema operativo.
+* **Solución estándar:** Crear un entorno virtual con `python3 -m venv .venv` y activarlo con `source .venv/bin/activate`.
+
+### • Procesamiento de Transparencia en Imágenes (Pillow / PIL)
+Al convertir imágenes PNG con canal alfa (transparencia) a formatos como ASCII o RGB:
+* **Canal Alfa (`RGBA`):** El 4to canal que define la opacidad (0 = transparente, 255 = opaco).
+* **Pegar sobre fondo sólido (`paste` con máscara):** Técnica para rellenar fondos transparentes con un color específico (negro, blanco, etc.) antes de procesar la imagen.
+
+---
+
+## 6. Técnicas de Renderizado en Terminal (Pixel Art / ANSI)
+
+### • Half-Block Rendering (`▀` / `▄`)
+Técnica para duplicar la resolución vertical en la terminal. Dado que los caracteres de terminal tienen una relación de aspecto de aproximadamente 1:2 (son el doble de altos que de anchos), un solo carácter `▀` (Upper Half Block) permite representar **2 píxeles verticales en una sola celda de texto**:
+* El color de texto (*foreground*) colorea la mitad superior.
+* El color de fondo (*background*) colorea la mitad inferior.
+
+### • Caracteres Unicode para Pixel Art
+* `█` (Full Block / U+2588): Bloque sólido completo.
+* `▀` (Upper Half Block / U+2580): Medio bloque superior.
+* `▄` (Lower Half Block / U+2584): Medio bloque inferior.
+* `▪` o `■` (Black Small/Medium Square): Cuadrados centrados para estilos de menor densidad.
+* `●` (Black Circle): Para renderizado estilo mosaico de puntos / LEDs.
